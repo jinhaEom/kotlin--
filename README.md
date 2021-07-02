@@ -1,2 +1,4 @@
-# kotlin-week1-2
- fun type
+# kotlin-기본구성
+1.함수종류
+2.null값 처리 
+3.예외 처리
