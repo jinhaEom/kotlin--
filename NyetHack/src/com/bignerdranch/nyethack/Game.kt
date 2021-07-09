@@ -1,7 +1,7 @@
 fun main() {
 
 
-    val player=Player()
+    val player=Player("Madrigal")
     player.castFireball()
 
 
