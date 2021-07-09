@@ -1,0 +1,81 @@
+오버라이딩 & 추상화
+
+오버라이딩 : 서브클래스에서 같은이름과 형태로된 함수의 내용을 다시 구현할 수 있음
+
+fun main(){
+	var t = Tiger()
+	t.eat()
+}
+open class Animal{
+	open fun eat(){
+	println("음식을 먹는다.")
+    }
+}
+class Tiger : Animal(){
+    override fun eat(){
+        println("고기를 먹는다.")
+    }
+}
+
+
+수퍼 클래스에서 open이 붙은 함수는 서브 클래스에서 override 를 붙여 사용하면 됌.
+
+추상화(abstract)
+: 선언부만 있고 기능이 구현되지 않은 추상함수, 추상함수를 포함하는 추상클래스라는 
+요소로 구성됌. ( 즉 추상함수는 비어있는 껍데기)
+
+fun main(){
+    
+   var r =Rabbit()
+   
+   r.eat()
+   r.sniff()
+}
+abstract class Animal{
+    abstract fun eat()
+    fun sniff(){
+        println("킁킁")
+    }
+}
+class Rabbit : Animal(){
+    override fun eat(){
+        println("당근을 먹는다.")
+    }
+}
+ 
+추상화를 하는 다른 방법 : 인터페이스
+인터페이스에서
+구현부가 있는 함수 -> open 함수로 간주
+구현부가 없는 함수 -> abstract 함수로 간주
+
+별도의 키워드가 없어도 포함된 모든 함수를 서브클래스에서 구현 및 재정의가 가능함.
+또한 한번에 여러 인터페이스를 상속받을 수 있음
+fun main(){
+    var d=Dog()
+    d.run()
+    d.eat()
+}
+interface Runner{
+    fun run()
+}
+interface Eater{
+    fun eat(){
+        println("음식을 먹는다.")
+    }
+}
+class Dog : Runner,Eater{
+    override fun run(){
+        println("우다다다 뜁니다.")
+      
+    }
+   override fun eat(){
+       println("허겁지겁 먹는다.")
+   }
+}
+
+정리 : 
+오버라이딩- 이미 구현이 끝난 함수의 기능을 서브클래스에서 변경해야할때
+추상화- 형식만 선언하고 실제구현은 서브클래스에 일임할때 사용하는 기능
+인터페이스- 서로다른 기능들을 여러개 물려주어야 할때 사용하는 기능
+
+
