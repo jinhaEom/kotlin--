@@ -1,6 +1,7 @@
 /*
 플레이어 캐릭터 생성 -> player 클래스의 생성자를 호출하여 인스턴스를 생성.
  */
+import com.bignerdranch.nyethack.Coordinate
 import java.io.File
 class Player(_name :String,
              var healthPoints : Int = 100,
@@ -15,6 +16,8 @@ class Player(_name :String,
         field=value.trim() //String 타입의 trim함수를 호출하여 문자열 앞뒤 공백문자를 제거한다.
     }
     val hometown by lazy { selectHometown() }
+    var currentPosition = Coordinate(0,0)
+
     init{
         require(healthPoints>0,{"healthPoints는 0보다 커야 합니다."})
         require(name.isNotBlank(),{"플레이어의 이름이 있어야 합니다."})
