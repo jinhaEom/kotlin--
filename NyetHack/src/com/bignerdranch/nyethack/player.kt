@@ -2,14 +2,28 @@
 플레이어 캐릭터 생성 -> player 클래스의 생성자를 호출하여 인스턴스를 생성.
  */
 import com.bignerdranch.nyethack.Coordinate
+import com.bignerdranch.nyethack.Fightable
 import java.io.File
-class Player(_name :String,
-             var healthPoints : Int = 100,
-             val isBlessed : Boolean,
-             private val isImmortal : Boolean
-)
 
-{
+class Player(_name :String,
+             override var healthPoints : Int = 100,
+             val isBlessed : Boolean = false,
+             private var isImmortal : Boolean): Fightable {
+    override val diceCount = 3
+
+    override val diceSides = 6
+
+    override fun attack(opponent: Fightable): Int {
+        // Fightable 인터페이스 타입의 매개변수를 가지므로 이 인터페이스를 구현하는 어떤 클래스의 인스턴스도 인자로 받을수 있음.
+        val damageDealt = if (isBlessed) {
+            damageRoll * 2
+        } else {
+            damageRoll
+        }
+        opponent.healthPoints -= damageDealt
+        return damageDealt
+    }
+
     var name = _name
         get()="${field.capitalize()} of $hometown"
     private set(value){

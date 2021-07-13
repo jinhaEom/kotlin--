@@ -1,6 +1,8 @@
 import com.bignerdranch.nyethack.Direction
+import com.bignerdranch.nyethack.Monster
 import com.bignerdranch.nyethack.Room
 import com.bignerdranch.nyethack.TownSquare
+import kotlin.system.exitProcess //exitProcess 는 코틀린 표준 라이브러리 함수로 현재 실행중인 JVM 인스턴스를 중단시킴.
 
 fun main() {
     Game.play()
@@ -41,13 +43,34 @@ object Game {
         )
         println("${player.name} ${player.formatHealthStatus()}")
     }
+    private fun fight()= currentRoom.monster?.let{
+        while(player.healthPoints>0 && it.healthPoints>0){
+            slay(it)
+            Thread.sleep(1000)
+        }
+        "전투가 끝났음."
+    } ?: "여기엔 싸울 괴물이 없습니다."
 
+    private fun slay(monster: Monster){
+        println("${monster.name}--${monster.attack(player)} 손상을 입힘!")
+        println("${player.name}--${player.attack(monster)} 손상을 입힘")
+
+        if(player.healthPoints<=0){
+            println(">>>> 패배하였습니다. 게임을 종료합니다..<<<<")
+            exitProcess(0)
+        }
+        else if(monster.healthPoints<=0){
+            println(">>>> ${monster.name}--물리침! <<<<")
+            currentRoom.monster=null
+        }
+    }
     private class GameInput(arg: String?) {
         private val input = arg ?: ""
         val command = input.split(" ")[0]
         val argument = input.split(" ").getOrElse(1, { "" })
 
         fun processCommand() = when (command.toLowerCase()) {
+            "fight"->fight(2)
             "move" -> move(argument)
             else -> commandNotFound()
         }
