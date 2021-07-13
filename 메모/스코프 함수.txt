@@ -1,0 +1,67 @@
+/*스코프 함수 : 함수형 언어의 특징을 
+좀더 편리하게 사용할 수 있도록 기본 제공하는 삼수들
+
+클래스에서 생성한 인스턴스를 스코프 함수에 전달하면
+인스턴스의 속성이나 함수를 스코프 함수 내에서 편하게
+사용할수 있도록 하는 기능
+
+apply, run ,with, also, let
+
+apply 인스턴스를 생성한 후 변수에 담기전에 
+'초기화 과정'을 수행할때 많이 사용 됌.*/
+fun main(){
+    var a = Book("코틀린 책",10000).apply{
+        name="[초특가]"+name
+        discount()
+    }
+}
+class Book(var name:String, var price:Int){
+    fun discount()
+    {
+        price -=2000
+    }
+    
+/*run : 일반 람다함수처럼 인스턴스 대신 마지막구문의 결과값을 변환
+따라서 이미 인스턴스가 만들어 진후 인스턴스의 함수나 속성을 scope 내에서
+사용해야할 때 유용함.*/
+fun main(){
+    var a = Book("코틀린 책",10000).apply{
+        name="[초특가]"+name
+        discount()
+    }
+    a.run{
+        println("상품명:$(name),가격:$(price)원")
+    }
+}
+class Book(var name:String, var price:Int){
+    fun discount()
+    {
+        price -=2000
+    }
+    
+/*with 와 run 의 차이점
+ex) run이 a.run{...} 이면 with 는 with(a){...}
+
+also , let -> 파라미터로 인스턴스를 넘긴것처럼 it을 통해서 인스턴스를 사용가능*/
+
+fun main(){
+ var a = Book("코틀린 책",10000).apply{
+        name="[초특가]"+name
+        discount()
+    }
+    a.run{
+        println("상품명:$(name),가격:$(price)원")
+    }
+    a.let{
+        println("상품평 $(it.name), 가격:$(it.price)원")
+    }
+}
+class Book(var name:String, var price:Int){
+    fun discount()
+    {
+        price -=2000
+    }
+    
+    /*스코프 함수는 인스턴스의 속성이나 함수를 scope 내에서 깔끔하게
+    분리하여 사용할 수 있다는 점 때문에 코드의 가독성을 향상 시킨다는
+    장점이 존재. */
