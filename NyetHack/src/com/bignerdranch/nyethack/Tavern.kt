@@ -10,6 +10,8 @@ val menuList=File("data/tavern-menu-items.txt")
     .readText() //파일의 모든내용을 하나의 문자열로 반환한다.
     .split("\r\n")  // split 함수는 리스트의 요소로 각 항목을 분리하여 저장하게 하는 역할
 val patronGold= mutableMapOf<String,Double>()
+
+
 /*
 mutableListOf는 저장된 요소를 변경해야할때 사용을 하고
 listOf는 고정된 값을 사용할때 사용
@@ -27,8 +29,8 @@ fun main() {
     }
 
     (0..9).forEach{
-        val first=patronList.shuffled().first()
-        val last=lastName.shuffled().first()
+        val first=patronList.random()
+        val last=lastName.random()
         val name="$first $last"
         uniquePatrons+=name
     }
@@ -39,8 +41,8 @@ fun main() {
     var orderCount=0
     while(orderCount<=9) {
         placeOrder(
-            uniquePatrons.shuffled().first(),
-            menuList.shuffled().first()
+            uniquePatrons.random(),
+            menuList.random()
         )
         orderCount++
     }
