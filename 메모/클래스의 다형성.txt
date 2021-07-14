@@ -1,0 +1,54 @@
+Up-Casting : 상위 자료형인 수퍼클래스로 변환
+
+Down-Casting : Up-Casting 된 인스턴스를 다시 하위 자료형으로 변환
+Down- Casting 은 별도의 연산자가 필요함 (as,is)
+
+
+as - 변수를 호환되는 자료형으로 변환해주는 캐스팅 연산자, 반환도 가능
+
+is - 변수가 자료형에 호환되는지를 먼저 체크한 후 변환해주는 캐스팅 연산자, 조건문 내에서 사용됌.
+EX)
+fun main(){
+    var a =Drink()
+    a.drink()
+    
+    var b : Drink=Cola()
+    b.drink()
+    
+    //다운 캐스팅을 해야 washDishes 호출이 가능
+    if(b is Cola)
+    {
+        //is 는 조건문 내에서 잠시 다운 캐스팅이 가능
+        b.washDishes()
+    }
+  var c = b as Cola
+    c.washDishes()
+    b.washDishes() // as를 사용하면 반환값 뿐만 아니라 변수 자체도 다운캐스팅이 되어 오류가 발생하지 않음
+}
+//Drink 클래스를 상속이 가능한 open class 로 만들어줌
+open class Drink{
+    var name = "음료"
+    
+    //override 가 가능하도록 open 해줌
+    open fun drink(){
+        println("${name}를 마십니다.")
+    }
+}
+class Cola :Drink(){
+    var type ="콜라"
+    
+    override fun drink(){
+        println("${name}중에 ${type}를 마십니다.")
+    }
+    fun washDishes(){
+        println("${type}로 설거지를 합니다.")
+    }
+}
+
+/*output
+ * 음료를 마십니다.
+ * 음료중에 콜라를 마십니다.
+ * 콜라로 설거지를 합니다.
+ * 콜라로 설거지를 합니다.
+ * 콜라로 설거지를 합니다.
+ * */
