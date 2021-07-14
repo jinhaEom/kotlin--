@@ -12,3 +12,43 @@ class Box<T>(t:T){
 }
 --> Box 클래스는 타입이 T인 value를 가지게 됌. 클래스가 서언된 시점에서 t이 구체적인 타입은 정해지지 않음.
 -> t의 타입은 생성자 호출을 통해 값이 입력되면 그때 값의 타입으로 확정됌.
+
+fun main(){
+    UsingGeneric(A()).doShouting()
+    UsingGeneric(B()).doShouting()
+    UsingGeneric(C()).doShouting()
+    
+    doShouting(B())
+}
+fun <T:A> doShouting(t:T){
+    t.shout()
+}
+open class A{
+    open fun shout(){
+        println("A 가 소리친다.")
+    }
+}
+class B : A(){
+    override fun shout(){
+        println("B 가 소리친다.")
+    }
+}
+class C : A(){
+    override fun shout(){
+        println("C 가 소리친다.")
+    }
+}
+class UsingGeneric<T:A> (val t: T){
+    fun doShouting(){
+        t.shout()
+    }
+}
+
+/* 
+output
+
+A가 소리친다.
+B가 소리친다.
+C가 소리친다.
+B가 소리친다.
+*/
