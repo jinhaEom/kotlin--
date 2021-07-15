@@ -1,0 +1,66 @@
+함수 유형
+
+함수형 프로그램을 구성하는 함수의 유형(3가지) - 변환(transform),필터(filter),결합(combine)
+-> 컬렉션 데이터 구조를 사용하여 최종 결과를 산출하도록 설계되어있음.
+
+
+1. 변환함수
+
+변환함수는 입력 컬렉션에 저장된 모든 요소를 읽는다. 그리고 인자로 제공된 사용자 지정 변환함수를 실행하여
+컬렉션의 각 요소나 항목을 변환한 후 변경된 컬렉션을 반환한다.
+이후에 연쇄 호출된 다른 함수가 있으면 해당 함수가 계속 실행된다
+
+map, flatMap (<- 변환에 자주 사용되는 함수)
+
+val animals = listOf("zebra","giraffe","elephant","rat")
+ val babies = animals
+     .map{ animal -> "A baby $animal"}
+     .map{ baby -> "$baby, with the cutest little tail ever!"}
+ println(babies)
+
+
+output ==>[A baby zebra, with the cutest little tail ever!, A baby giraffe, with the cutest little tail ever!, 
+A baby elephant, with the cutest little tail ever!, A baby rat, with the cutest little tail ever!]
+
+map 함수는 입력 컬렉션과 같은 수의 요소를 갖는 컬렉션을 반환한다.
+
+flatMap 함수는 인자로 전달된 변환함수의 결과로 산출된 모든 요소를 하나의 컬렉션으로 생성하여 반환한다.
+따라서 다른 컬렉션이 저장된 컬렉션을 입력 컬렉션으로 사용하여 flatMap 을 실행하면 모든 컬렉션의 요소를 통합한 
+하나의 컬렉션을 생성할 수 있다.
+listOf(listof(1,2,3), listOf(4,5,6)).flatMap { it }   --->> output : [1, 2, 3, 4, 5, 6]
+
+
+2. 필터함수
+- 필터함수는 컬렉션의 각 요소를 검사하고, true or false를 반환하는 술어함수를 인자로 받는다.
+술어함수에서 true 를 반환하면 filter 함수가 반환하는 결과 컬렉션에 해당 요소가 추가되며 false가 반환다면 해당 요소는 결과컬렉션에서 제외된다.
+
+fun main(){
+    val itemsOfManyColors = listOf(listOf("red apple","green apple","blue apple"),
+                            listOf("red fish","blue fish"), listOf("yellow banana","teal banana"))
+	val redItems = itemsOfManyColors.flatMap { it.filter { it.contains("red")}}
+	println(redItems)
+}
+flatMap의 변환함수로 filter 를 받으며 filter에서는 입력 컬렉션에 저장된 각 List "red"가 포함된 값을 갖는 요소가 있는지
+검사하는 술어 함수인  { it.contains("red")}를 인자로 받는다.
+결과적으로 flatMap의 입력 컬렉션에 저장된 모든 요소가 검사되어 하나의 새로운 List 인 redItems 에 저장된다.
+이러한 방식으로 함수를 결합해 사용하는 것이 전형적 함수형 프로그래밍 방식.
+
+3.결합함수
+-결합함수는 서로 다른 컬렉션을 인자로 받아서 모든 요소들이 합쳐진 새로운 컬렉션을 생성함.
+
+fun main(){
+    val employees = listOf("Denny","Claudette", "peter")
+    val shirtSize = listOf("large", "x-large","medium")
+    val employeeShirtSizes = employees.zip(shirtSize).toMap()
+    println(employeeShirtSizes["Denny"])
+}
+zip 함수 --> 직원 이름을 요소로 갖는 employees List 와 그들의 셔츠 크기를 갖는 shirtSize List를 결합(같은순서끼리) Pair 객체로 생성후
+임시 List 에 저장함. 그후 연쇄 호출된 toMap 에선 임시 List의 각 요소(pair 객체)를 emploeeShirtSizes Map의 항목으로 저장한다.
+(Map 은 키와 값이 한 쌍으로 저장되는 컬렉션이다.)
+따라서 두개의 속성을 갖는 Pair 객체를 저장한 List는 언제든 Map 으로 변환 할 수 있으며 위의 코드에선 직원이름이 키 ,셔츠크기가 값으로 Map 에 저장됌.
+
+
+함수형 방법의 장점
+1. 처리 중간에 값을 축적하는 변수들이 내부적으로 정의되므로 상태를 보존하는 변수들을 줄일 수 있다.
+2. 함수형 연산의 결과는 자동으로 축적 변수에 추가되므로 코드 결함의 발생 위험을 줄일 수 있다.
+3 새로운 연산이 필요하면 함수의 연쇄 호출에 추가하면 된다. 모든 함수형 연산은 반복 처리되기 때문이다.
