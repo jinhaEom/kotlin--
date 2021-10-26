@@ -1,0 +1,60 @@
+package bu.ac.kr.test
+
+
+//람다식
+// 우리가 마치 value 처럼 다룰 수 있는 익명함수이다.
+// 1) 메소드의 파라미터로 넘겨줄 수 있다. ex) fun maxBy(a:Int)
+// 2) return 값으로 사용 할 수가 있다.
+
+
+val square : (Int)->(Int)={number -> number*number}
+
+val nameAge= {name : String,age:Int ->
+    "my name is ${name}, I'm ${age} years old"
+}
+fun main(){
+    println(square(12))
+    println(nameAge("jinha",24))
+
+    val a = "jinha said "
+    val b= "kwanghyun said "
+    println(a.pizzasIsGreat())
+    println(b.pizzasIsGreat())
+    println(extendString("ariana",24))
+    println(calculate(197))
+
+
+    val lamda = {number : Double ->
+        number == 4.3213
+    }
+    println(invokeLamda(lamda))
+   // println(invokeLamda({it>3.22})) ==
+    invokeLamda{it >3.22}
+}
+
+//확장함수
+
+val pizzasIsGreat : String.() -> String={
+    this + "pizza is the best!"
+}
+fun extendString(name : String, age:Int):String{
+    val introduceMyself : String.(Int) -> String = {"I am ${this} and ${it} years old"}
+    return name.introduceMyself(age)
+}
+
+//람다의 return
+
+val calculate :(Int)-> String = {
+    when(it) {
+        in 0..40 -> "fail"
+        in 41..70 -> "pass"
+        in 71..100 -> "perfect"
+        else -> "Error"
+    }
+
+}
+//람다를 표현하는 여러가지 방법
+
+fun invokeLamda(lamda :(Double) -> Boolean):Boolean{
+    return lamda(5.2343)
+}
